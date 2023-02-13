@@ -17,6 +17,23 @@ app.get('/', (req, res) => {
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './public/notes.html'));
 });
+app.get('/api/notes', (req, res) => {
+    return res.json(db);
+});
+app.post('/api/reviews', (req, res) => {
+    let response;
+    if (req.body && req.body.title) {
+      response = {
+        status: 'success',
+        data: req.body,
+      };
+      res.json(`Note ${response.data.title} has been added!`);
+    } else {
+      res.json('Request body must at least contain a note title');
+    }
+    console.log(req.body);
+  });
+
 
 app.listen(PORT, () => {
     console.log(`Note taker app listening at http://localhost:${PORT}`);
