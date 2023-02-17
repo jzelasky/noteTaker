@@ -66,13 +66,15 @@ const renderActiveNote = () => {
   }
 };
 
+//function called when save button is clicked
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
   };
   saveNote(newNote).then(() => {
-    getAndRenderNotes();
+    console.log('hello'); //ISSUE IS HERE then isn't happening
+    getAndRenderNotes(); //this function works when called upon restarting server see line 185
     renderActiveNote();
   });
 };
