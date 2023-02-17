@@ -25,7 +25,6 @@ app.get('/api/notes', (req, res) => {
 app.post('/api/notes', (req, res) => {  
   console.info(`${req.method} request received to add a note`);
   const { title, text } = req.body;
-
   if (title && text) {
     const newNote = {
       title,
@@ -37,7 +36,6 @@ app.post('/api/notes', (req, res) => {
         console.error(err);
       } else {
         db = JSON.parse(data);
-        
         db.push(newNote);
         fs.writeFile(
           './db/db.json',
@@ -50,19 +48,26 @@ app.post('/api/notes', (req, res) => {
         res.json(newNote);
       }
     });
-    /*const response = {
-      status: 'success',
-      body: newNote,
-    };
-    console.log(response);
-    res.status(201).json(response);*/
-    console.log('test');
-    
   } else {
     res.status(500).json('Error in posting note');
-    
   }
 });
+app.delete('/api/notes/:id', (req, res) => {
+  res.json(`${req.method} request received`);
+  console.info(`${req.method} request received`);
+  const { id } = req.params;
+  const projectIndex = db.findIndex(p => p.id == id);
+  db.splice(projectIndex, 1);
+  fs.writeFile(
+    './db/db.json',
+    JSON.stringify(db),
+    (writeErr) =>
+      writeErr
+        ? console.error(writeErr)
+        : console.info('Successfully updated notes!')
+  );
+  return res.send();
+})
 
 
 app.listen(PORT, () => {

@@ -73,8 +73,7 @@ const handleNoteSave = () => {
     text: noteText.value,
   };
   saveNote(newNote).then(() => {
-    console.log('hello'); //ISSUE IS HERE then isn't happening
-    getAndRenderNotes(); //this function works when called upon restarting server see line 185
+    getAndRenderNotes(); 
     renderActiveNote();
   });
 };
